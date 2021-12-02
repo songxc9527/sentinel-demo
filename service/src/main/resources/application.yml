@@ -1,0 +1,12 @@
+spring:
+  profiles.active: local
+server:
+  port: 8884
+
+nacos:
+  config:
+    auto-refresh: true
+    group: CRM_SENTINEL_GROUP
+    bootstrap:
+      enable: true
+    type: json

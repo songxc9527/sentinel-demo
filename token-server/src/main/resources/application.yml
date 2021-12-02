@@ -1,0 +1,14 @@
+spring:
+  profiles.active: local
+  application:
+    name: sentinel-token-server
+server:
+  port: 8882
+
+nacos:
+  config:
+    auto-refresh: true
+    group: CRM_SENTINEL_GROUP
+    bootstrap:
+      enable: true
+    type: json
