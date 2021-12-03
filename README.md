@@ -3,6 +3,9 @@
 ### 项目介绍
 springboot集成sentinel作集群流控，使用nacos作为数据源，sentinel-dashboard修改流控规则同步到nacos，应用监听到流控规则变更进行同步，采用独立模式部署token-server，并使用zookeeper做高可用。
 
+### 架构
+![image](https://github.com/songxc9527/sentinel-demo/blob/master/basic/sentinel.png)
+
 ### 环境
 |  工具   | 版本  |
 |  ----  | ----  |
