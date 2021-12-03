@@ -1,4 +1,4 @@
 nacos:
   config:
     data-id: appA-flow-rules
-    namespace: a0af915e-3d62-44cc-b031-60d196f9aa5e
+    namespace: nacos-namespace
