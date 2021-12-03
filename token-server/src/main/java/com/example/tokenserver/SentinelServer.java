@@ -36,6 +36,9 @@ import javax.annotation.PostConstruct;
 import java.io.Closeable;
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * sentinel server
@@ -108,7 +111,7 @@ public class SentinelServer implements DisposableBean {
 
         // set port
         ServerTransportConfig serverTransportConfig = new ServerTransportConfig();
-        serverTransportConfig.setPort(11112);
+        serverTransportConfig.setPort(11111);
         ClusterServerConfigManager.loadGlobalTransportConfig(serverTransportConfig);
 
         // Start the server.
@@ -173,6 +176,8 @@ public class SentinelServer implements DisposableBean {
 
         private final DynamicRuleProvider<List<ClusterGroupEntity>> provider;
 
+        private final ScheduledExecutorService executor;
+
         public ServerLeaderClient(String address, String path, String groupId,
                                   DynamicRulePublisher<List<ClusterGroupEntity>> publisher,
                                   DynamicRuleProvider<List<ClusterGroupEntity>> provider) {
@@ -183,6 +188,13 @@ public class SentinelServer implements DisposableBean {
             addListener();
             this.publisher = publisher;
             this.provider = provider;
+            this.executor = Executors.newScheduledThreadPool(1, r -> {
+                Thread t = new Thread(r);
+                t.setName("com.example.tokenserver.ServerLeaderClient.leaderChecker");
+                t.setDaemon(true);
+                return t;
+            });
+            this.executor.scheduleWithFixedDelay(this::checkLeader, 1L, 10000L, TimeUnit.MILLISECONDS);
         }
 
         /**
@@ -238,6 +250,7 @@ public class SentinelServer implements DisposableBean {
          * if current node is leader, then publish config
          */
         private void checkLeader() {
+            log.debug("to check leader...");
             try {
                 Set<String> namespaceSet = ClusterServerConfigManager.getNamespaceSet();
                 if (CollectionUtils.isEmpty(namespaceSet)) {

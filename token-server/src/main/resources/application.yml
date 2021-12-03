@@ -8,7 +8,7 @@ server:
 nacos:
   config:
     auto-refresh: true
-    group: SENTINEL_GROUP
+    group: CRM_SENTINEL_GROUP
     bootstrap:
       enable: true
     type: json

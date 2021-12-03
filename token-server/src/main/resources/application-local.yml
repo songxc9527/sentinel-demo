@@ -3,4 +3,4 @@ nacos:
     data-id: appA-flow-rules
     namespace: nacos-namespace
 zookeeper:
-  address: 127.0.0.1:2181
+  address: 172.0.0.1:2181
