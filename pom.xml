@@ -16,6 +16,7 @@
     <name>sentinel-demo</name>
 
     <modules>
+        <module>sentinel-dashboard</module>
         <module>token-server</module>
         <module>service</module>
         <module>rule-manager</module>
